@@ -2,18 +2,18 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>top.codingshen</groupId>
-    <artifactId>big-market</artifactId>
+    <groupId>com.alias</groupId>
+    <artifactId>alias-market</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <modules>
-        <module>big-market-app</module>
-        <module>big-market-domain</module>
-        <module>big-market-trigger</module>
-        <module>big-market-infrastructure</module>
-        <module>big-market-types</module>
-        <module>big-market-api</module>
+        <module>alias-market-app</module>
+        <module>alias-market-domain</module>
+        <module>alias-market-trigger</module>
+        <module>alias-market-infrastructure</module>
+        <module>alias-market-types</module>
+        <module>alias-market-api</module>
     </modules>
 
     <properties>
@@ -28,8 +28,8 @@
         <developer>
             <name>AlexShen</name>
             <email>alex_shency@outlook.com</email>
-            <organization>codingshen</organization>
-            <organizationUrl>https://www.codingshen.top</organizationUrl>
+            <organization>alias</organization>
+            <organizationUrl>https://alias.com</organizationUrl>
         </developer>
     </developers>
 
@@ -138,23 +138,23 @@
 
             <!-- 工程模块 -->
             <dependency>
-                <groupId>top.codingshen</groupId>
-                <artifactId>big-market-domain</artifactId>
+                <groupId>com.alias</groupId>
+                <artifactId>alias-market-domain</artifactId>
                 <version>1.0-SNAPSHOT</version>
             </dependency>
             <dependency>
-                <groupId>top.codingshen</groupId>
-                <artifactId>big-market-infrastructure</artifactId>
+                <groupId>com.alias</groupId>
+                <artifactId>alias-market-infrastructure</artifactId>
                 <version>1.0-SNAPSHOT</version>
             </dependency>
             <dependency>
-                <groupId>top.codingshen</groupId>
-                <artifactId>big-market-types</artifactId>
+                <groupId>com.alias</groupId>
+                <artifactId>alias-market-types</artifactId>
                 <version>1.0-SNAPSHOT</version>
             </dependency>
             <dependency>
-                <groupId>top.codingshen</groupId>
-                <artifactId>big-market-trigger</artifactId>
+                <groupId>com.alias</groupId>
+                <artifactId>alias-market-trigger</artifactId>
                 <version>1.0-SNAPSHOT</version>
             </dependency>
         </dependencies>
@@ -195,21 +195,21 @@
                 <activeByDefault>true</activeByDefault>
             </activation>
             <properties>
-                <java_jvm>-Xms1G -Xmx1G -server  -XX:MaxPermSize=256M -Xss256K -Dspring.profiles.active=test -XX:+DisableExplicitGC -XX:+UseG1GC  -XX:LargePageSizeInBytes=128m -XX:+UseFastAccessorMethods -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/export/Logs/big-market-boot -Xloggc:/export/Logs/big-market-boot/gc-big-market-boot.log -XX:+PrintGCDetails -XX:+PrintGCDateStamps</java_jvm>
+                <java_jvm>-Xms1G -Xmx1G -server  -XX:MaxPermSize=256M -Xss256K -Dspring.profiles.active=test -XX:+DisableExplicitGC -XX:+UseG1GC  -XX:LargePageSizeInBytes=128m -XX:+UseFastAccessorMethods -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/export/Logs/alias-market-boot -Xloggc:/export/Logs/alias-market-boot/gc-alias-market-boot.log -XX:+PrintGCDetails -XX:+PrintGCDateStamps</java_jvm>
                 <profileActive>dev</profileActive>
             </properties>
         </profile>
         <profile>
             <id>test</id>
             <properties>
-                <java_jvm>-Xms1G -Xmx1G -server  -XX:MaxPermSize=256M -Xss256K -Dspring.profiles.active=test -XX:+DisableExplicitGC -XX:+UseG1GC  -XX:LargePageSizeInBytes=128m -XX:+UseFastAccessorMethods -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/export/Logs/big-market-boot -Xloggc:/export/Logs/big-market-boot/gc-big-market-boot.log -XX:+PrintGCDetails -XX:+PrintGCDateStamps</java_jvm>
+                <java_jvm>-Xms1G -Xmx1G -server  -XX:MaxPermSize=256M -Xss256K -Dspring.profiles.active=test -XX:+DisableExplicitGC -XX:+UseG1GC  -XX:LargePageSizeInBytes=128m -XX:+UseFastAccessorMethods -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/export/Logs/alias-market-boot -Xloggc:/export/Logs/alias-market-boot/gc-alias-market-boot.log -XX:+PrintGCDetails -XX:+PrintGCDateStamps</java_jvm>
                 <profileActive>test</profileActive>
             </properties>
         </profile>
         <profile>
             <id>prod</id>
             <properties>
-                <java_jvm>-Xms6G -Xmx6G -server  -XX:MaxPermSize=256M -Xss256K -Dspring.profiles.active=release -XX:+DisableExplicitGC -XX:+UseG1GC  -XX:LargePageSizeInBytes=128m -XX:+UseFastAccessorMethods -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/export/Logs/fq-mall-activity-app -Xloggc:/export/Logs/big-market-boot/gc-big-market-boot.log -XX:+PrintGCDetails -XX:+PrintGCDateStamps</java_jvm>
+                <java_jvm>-Xms6G -Xmx6G -server  -XX:MaxPermSize=256M -Xss256K -Dspring.profiles.active=release -XX:+DisableExplicitGC -XX:+UseG1GC  -XX:LargePageSizeInBytes=128m -XX:+UseFastAccessorMethods -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/export/Logs/fq-mall-activity-app -Xloggc:/export/Logs/alias-market-boot/gc-alias-market-boot.log -XX:+PrintGCDetails -XX:+PrintGCDateStamps</java_jvm>
                 <profileActive>prod</profileActive>
             </properties>
         </profile>
