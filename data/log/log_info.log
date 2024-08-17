@@ -1,0 +1,12 @@
+24-08-17.22:24:50.010 [main            ] INFO  Application            - Starting Application using Java 1.8.0_131 on LAPTOP-8LUA09MH with PID 18312 (C:\develop\projects\alias-market\alias-market-app\target\classes started by Zhexun in C:\develop\projects\alias-market)
+24-08-17.22:24:50.012 [main            ] INFO  Application            - The following 1 profile is active: "dev"
+24-08-17.22:24:50.503 [main            ] WARN  ClassPathMapperScanner - No MyBatis mapper was found in '[com.alias]' package. Please check your configuration.
+24-08-17.22:24:50.787 [main            ] INFO  TomcatWebServer        - Tomcat initialized with port(s): 8091 (http)
+24-08-17.22:24:50.794 [main            ] INFO  Http11NioProtocol      - Initializing ProtocolHandler ["http-nio-8091"]
+24-08-17.22:24:50.795 [main            ] INFO  StandardService        - Starting service [Tomcat]
+24-08-17.22:24:50.795 [main            ] INFO  StandardEngine         - Starting Servlet engine: [Apache Tomcat/9.0.75]
+24-08-17.22:24:50.921 [main            ] INFO  [/]                    - Initializing Spring embedded WebApplicationContext
+24-08-17.22:24:50.921 [main            ] INFO  ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 879 ms
+24-08-17.22:24:51.372 [main            ] INFO  Http11NioProtocol      - Starting ProtocolHandler ["http-nio-8091"]
+24-08-17.22:24:51.384 [main            ] INFO  TomcatWebServer        - Tomcat started on port(s): 8091 (http) with context path ''
+24-08-17.22:24:51.392 [main            ] INFO  Application            - Started Application in 1.758 seconds (JVM running for 2.776)

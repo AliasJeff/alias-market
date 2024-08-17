@@ -1,0 +1,1 @@
+24-08-17.22:24:50.503 [main            ] WARN  ClassPathMapperScanner - No MyBatis mapper was found in '[com.alias]' package. Please check your configuration.
