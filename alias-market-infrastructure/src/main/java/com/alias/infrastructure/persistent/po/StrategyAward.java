@@ -2,6 +2,7 @@ package com.alias.infrastructure.persistent.po;
 
 import lombok.Data;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 @Data
@@ -45,7 +46,7 @@ public class StrategyAward {
     /**
      * 奖品中奖概率
      */
-    private Double awardRate;
+    private BigDecimal awardRate;
 
     /**
      * 规则模型，rule配置的模型同步到此表，便于使用

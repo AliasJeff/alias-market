@@ -4,7 +4,7 @@ version: '3.8'
 # 你需要修改system为你自身系统的仓库名
 services:
   alias-market:
-    image: system/alias-market:1.0-SNAPSHOT
+    image: alias-market/alias-market:1.0-SNAPSHOT
     container_name: alias-market
     restart: on-failure
     ports:
