@@ -10,6 +10,11 @@ import java.util.concurrent.TimeUnit;
 public interface IRedisService {
 
     /**
+     * 清空缓存
+     */
+    boolean clearCache();
+
+    /**
      * 设置指定 key 的值
      *
      * @param key   键

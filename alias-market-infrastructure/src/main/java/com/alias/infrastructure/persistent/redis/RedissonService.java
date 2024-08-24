@@ -1,9 +1,12 @@
 package com.alias.infrastructure.persistent.redis;
 
+import com.alias.types.common.Constants;
+import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.*;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.lang.reflect.Field;
 import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
@@ -11,10 +14,31 @@ import java.util.concurrent.TimeUnit;
  * Redis 服务 - Redisson
  */
 @Service("redissonService")
+@Slf4j
 public class RedissonService implements IRedisService {
 
     @Resource
     private RedissonClient redissonClient;
+
+    @Override
+    public boolean clearCache() {
+        try {
+        Class<?> redisKeyClass = Constants.RedisKey.class;
+
+        Field[] fields = redisKeyClass.getDeclaredFields();
+
+        for (Field field : fields) {
+            if (java.lang.reflect.Modifier.isStatic(field.getModifiers())) {
+                String value = (String) field.get(null);
+                this.remove(value);
+            }
+        }
+        } catch (IllegalAccessException e) {
+            log.error("清除缓存失败", e);
+            return false;
+        }
+        return true;
+    }
 
     public <T> void setValue(String key, T value) {
         redissonClient.<T>getBucket(key).set(value);

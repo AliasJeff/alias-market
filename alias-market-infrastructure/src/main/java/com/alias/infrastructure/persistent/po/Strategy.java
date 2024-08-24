@@ -22,6 +22,11 @@ public class Strategy {
     private String strategyDesc;
 
     /**
+     * 抽奖规则模型
+     */
+    private String ruleModels;
+
+    /**
      * 创建时间
      */
     private Date createTime;
