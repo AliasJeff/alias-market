@@ -28,9 +28,9 @@ public class StrategyArmoryDispatchTest {
 
     @Before
     public void test_AssembleLotteryStrategy() {
-        log.info("开始装配...");
         boolean clearSuccess = redisService.clearCache();
         log.info("清除缓存: {}", clearSuccess ? "成功" : "失败");
+        log.info("开始装配...");
         boolean success = strategyArmory.assembleLotteryStrategy(100001L);
         log.info("装配完成: {}", success ? "成功" : "失败");
     }
