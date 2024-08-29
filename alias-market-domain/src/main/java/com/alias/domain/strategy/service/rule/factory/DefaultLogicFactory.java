@@ -34,13 +34,19 @@ public class DefaultLogicFactory {
     @AllArgsConstructor
     public enum LogicModel {
 
-        RULE_DEFAULT("rule_default", "默认抽奖"),
-        RULE_BLACKLIST("rule_blacklist", "黑名单抽奖"),
-        RULE_WEIGHT("rule_weight", "权重规则"),
+        RULE_BLACKLIST("rule_blacklist", "黑名单抽奖", "before"),
+        RULE_WEIGHT("rule_weight", "权重规则", "before"),
+        RULE_LOCK("rule_lock", "锁定规则", "middle"),
+        RULE_LUCK_AWARD("rule_luck_award", "奖品兜底", "after"),
         ;
 
         private final String code;
         private final String info;
+        private final String type;
+
+        public static boolean isMiddle(String code) {
+            return "middle".equals(LogicModel.valueOf(code.toUpperCase()).type);
+        }
 
     }
 }

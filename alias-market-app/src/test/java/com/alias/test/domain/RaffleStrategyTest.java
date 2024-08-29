@@ -3,6 +3,8 @@ package com.alias.test.domain;
 import com.alias.domain.strategy.model.entity.RaffleAwardEntity;
 import com.alias.domain.strategy.model.entity.RaffleFactorEntity;
 import com.alias.domain.strategy.service.IRaffleStrategy;
+import com.alias.domain.strategy.service.armory.IStrategyArmory;
+import com.alias.domain.strategy.service.rule.impl.RuleLockLogicFilter;
 import com.alias.domain.strategy.service.rule.impl.RuleWeightLogicFilter;
 import com.alias.infrastructure.persistent.redis.IRedisService;
 import com.alibaba.fastjson.JSON;
@@ -22,10 +24,16 @@ import javax.annotation.Resource;
 public class RaffleStrategyTest {
 
     @Resource
+    private IStrategyArmory strategyArmory;
+
+    @Resource
     private IRaffleStrategy raffleStrategy;
 
     @Resource
     private RuleWeightLogicFilter ruleWeightLogicFilter;
+
+    @Resource
+    private RuleLockLogicFilter ruleLockLogicFilter;
 
     @Resource
     private IRedisService redisService;
@@ -33,13 +41,20 @@ public class RaffleStrategyTest {
     @Before
     public void setUp() {
         redisService.clearCache();
+        log.info("开始装配...");
+        strategyArmory.assembleLotteryStrategy(100001L);
+        strategyArmory.assembleLotteryStrategy(100002L);
+        strategyArmory.assembleLotteryStrategy(100003L);
+        log.info("装配完成");
+
         ReflectionTestUtils.setField(ruleWeightLogicFilter, "userScore", 40500L);
+        ReflectionTestUtils.setField(ruleLockLogicFilter, "userRaffleCount", 0L);
     }
 
     @Test
     public void test_performRaffle() {
         RaffleFactorEntity raffleFactorEntity = RaffleFactorEntity.builder()
-                .userId("xiaofuge")
+                .userId("alias")
                 .strategyId(100001L)
                 .build();
 
@@ -54,6 +69,19 @@ public class RaffleStrategyTest {
         RaffleFactorEntity raffleFactorEntity = RaffleFactorEntity.builder()
                 .userId("user003")  // 黑名单用户 user001,user002,user003
                 .strategyId(100001L)
+                .build();
+
+        RaffleAwardEntity raffleAwardEntity = raffleStrategy.performRaffle(raffleFactorEntity);
+
+        log.info("请求参数：{}", JSON.toJSONString(raffleFactorEntity));
+        log.info("测试结果：{}", JSON.toJSONString(raffleAwardEntity));
+    }
+
+    @Test
+    public void test_raffle_middle_rule_lock() {
+        RaffleFactorEntity raffleFactorEntity = RaffleFactorEntity.builder()
+                .userId("alias")
+                .strategyId(100003L)
                 .build();
 
         RaffleAwardEntity raffleAwardEntity = raffleStrategy.performRaffle(raffleFactorEntity);

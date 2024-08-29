@@ -3,6 +3,7 @@ package com.alias.infrastructure.persistent.repository;
 import com.alias.domain.strategy.model.entity.StrategyAwardEntity;
 import com.alias.domain.strategy.model.entity.StrategyEntity;
 import com.alias.domain.strategy.model.entity.StrategyRuleEntity;
+import com.alias.domain.strategy.model.vo.StrategyAwardRuleModelVO;
 import com.alias.domain.strategy.repository.IStrategyRepository;
 import com.alias.infrastructure.persistent.dao.IStrategyAwardDao;
 import com.alias.infrastructure.persistent.dao.IStrategyDao;
@@ -17,7 +18,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.Resource;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -131,11 +131,20 @@ public class StrategyRepository implements IStrategyRepository {
     }
 
     @Override
-    public String queryStrategyRuleValue(Long strategyId, Integer awardId, String ruleModel) {
+    public String queryStrategyRuleValue(Long strategyId, Long awardId, String ruleModel) {
         StrategyRule strategyRule = new StrategyRule();
         strategyRule.setStrategyId(strategyId);
         strategyRule.setAwardId(awardId);
         strategyRule.setRuleModel(ruleModel);
         return strategyRuleDao.queryStrategyRuleValue(strategyRule);
+    }
+
+    @Override
+    public StrategyAwardRuleModelVO queryStrategyAwardRuleModel(Long strategyId, Long awardId) {
+        StrategyAward strategyAward = new StrategyAward();
+        strategyAward.setStrategyId(strategyId);
+        strategyAward.setAwardId(awardId);
+        String ruleModels = strategyAwardDao.queryStrategyAwardRuleModels(strategyAward);
+        return StrategyAwardRuleModelVO.builder().ruleModels(ruleModels).build();
     }
 }

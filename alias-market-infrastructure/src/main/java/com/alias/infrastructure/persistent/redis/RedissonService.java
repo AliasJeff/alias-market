@@ -23,17 +23,15 @@ public class RedissonService implements IRedisService {
     @Override
     public boolean clearCache() {
         try {
-        Class<?> redisKeyClass = Constants.RedisKey.class;
+            RKeys rKeys = redissonClient.getKeys();
+            // 获取所有的键
+            Iterable<String> keys = rKeys.getKeys();
 
-        Field[] fields = redisKeyClass.getDeclaredFields();
-
-        for (Field field : fields) {
-            if (java.lang.reflect.Modifier.isStatic(field.getModifiers())) {
-                String value = (String) field.get(null);
-                this.remove(value);
+            for (String key : keys) {
+                rKeys.delete(key); // 删除每个键
+                log.info("已清除缓存：{}", key);
             }
-        }
-        } catch (IllegalAccessException e) {
+        } catch (Exception e) {
             log.error("清除缓存失败", e);
             return false;
         }

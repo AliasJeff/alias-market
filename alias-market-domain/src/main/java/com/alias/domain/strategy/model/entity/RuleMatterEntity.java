@@ -9,7 +9,7 @@ public class RuleMatterEntity {
 
     private Long strategyId;
 
-    private Integer awardId;
+    private Long awardId;
 
     private String ruleModel;
 }
