@@ -1,12 +1,10 @@
 package com.alias.infrastructure.persistent.redis;
 
-import com.alias.types.common.Constants;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.*;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.lang.reflect.Field;
 import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
