@@ -4,8 +4,8 @@ import com.alias.domain.strategy.model.entity.RaffleAwardEntity;
 import com.alias.domain.strategy.model.entity.RaffleFactorEntity;
 import com.alias.domain.strategy.service.IRaffleStrategy;
 import com.alias.domain.strategy.service.armory.IStrategyArmory;
-import com.alias.domain.strategy.service.rule.impl.RuleLockLogicFilter;
-import com.alias.domain.strategy.service.rule.impl.RuleWeightLogicFilter;
+import com.alias.domain.strategy.service.rule.chain.impl.RuleWeightLogicChain;
+import com.alias.domain.strategy.service.rule.filter.impl.RuleLockLogicFilter;
 import com.alias.infrastructure.persistent.redis.IRedisService;
 import com.alibaba.fastjson.JSON;
 import lombok.extern.slf4j.Slf4j;
@@ -30,7 +30,7 @@ public class RaffleStrategyTest {
     private IRaffleStrategy raffleStrategy;
 
     @Resource
-    private RuleWeightLogicFilter ruleWeightLogicFilter;
+    private RuleWeightLogicChain ruleWeightLogicChain;
 
     @Resource
     private RuleLockLogicFilter ruleLockLogicFilter;
@@ -47,7 +47,7 @@ public class RaffleStrategyTest {
         strategyArmory.assembleLotteryStrategy(100003L);
         log.info("装配完成");
 
-        ReflectionTestUtils.setField(ruleWeightLogicFilter, "userScore", 40500L);
+        ReflectionTestUtils.setField(ruleWeightLogicChain, "userScore", 40500L);
         ReflectionTestUtils.setField(ruleLockLogicFilter, "userRaffleCount", 0L);
     }
 

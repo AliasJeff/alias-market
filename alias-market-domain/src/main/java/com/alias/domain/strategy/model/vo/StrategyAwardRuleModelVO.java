@@ -1,6 +1,6 @@
 package com.alias.domain.strategy.model.vo;
 
-import com.alias.domain.strategy.service.rule.factory.DefaultLogicFactory;
+import com.alias.domain.strategy.service.rule.filter.factory.DefaultLogicFactory;
 import com.alias.types.common.Constants;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
