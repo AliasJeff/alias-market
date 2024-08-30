@@ -51,7 +51,7 @@ public abstract class AbstractRaffleStrategy implements IRaffleStrategy {
         }
 
         return RaffleAwardEntity.builder()
-                .awardId(Math.toIntExact(awardId))
+                .awardId(awardId)
                 .build();
 
     }

@@ -19,7 +19,7 @@ public class RaffleAwardEntity {
     /**
      * 奖品ID
      */
-    private Integer awardId;
+    private Long awardId;
 
     private String awardKey;
 
