@@ -27,16 +27,21 @@ public class StrategyArmoryDispatch implements IStrategyArmory, IStrategyDispatc
     public boolean assembleLotteryStrategy(Long strategyId) {
         // 查询策略配置
         List<StrategyAwardEntity> strategyAwardEntities = repository.queryStrategyAwardList(strategyId);
+        // 缓存奖品库存，用于 decr 扣件库存使用
+        for (StrategyAwardEntity strategyAwardEntity : strategyAwardEntities) {
+            Long awardId = strategyAwardEntity.getAwardId();
+            Integer awardCount = strategyAwardEntity.getAwardCount();
+            cacheStrategyAwardCount(strategyId, awardId, awardCount);
+        }
+        // 默认装配配置 - 全量抽奖概率
         assembleLotteryStrategy(String.valueOf(strategyId), strategyAwardEntities);
 
-        // 权重策略配置 - 适用于 rule_weight 权重规则配置
+        // 权重策略配置 - 适用于 rule_weight 权重规则配置【4000:102,103,104,105 5000:102,103,104,105,106,107 6000:102,103,104,105,106,107,108,109】
         StrategyEntity strategyEntity = repository.queryStrategyEntityByStrategyId(strategyId);
         String ruleWeight = strategyEntity.getRuleWeight();
         if (null == ruleWeight) {
             return true;
         }
-
-        // 权重策略配置 - 适用于 rule_weight 权重规则配置【4000:102,103,104,105 5000:102,103,104,105,106,107 6000:102,103,104,105,106,107,108,109】
         StrategyRuleEntity strategyRuleEntity = repository.queryStrategyRule(strategyId, ruleWeight);
         if (null == strategyRuleEntity) {
             throw new AppException(ResponseCode.STRATEGY_RULE_WEIGHT_IS_NULL.getCode(), ResponseCode.STRATEGY_RULE_WEIGHT_IS_NULL.getInfo());
@@ -51,6 +56,11 @@ public class StrategyArmoryDispatch implements IStrategyArmory, IStrategyDispatc
         }
 
         return true;
+    }
+
+    private void cacheStrategyAwardCount(Long strategyId, Long awardId, Integer awardCount) {
+        String cacheKey = Constants.RedisKey.STRATEGY_AWARD_COUNT_KEY + strategyId + Constants.UNDERLINE + awardId;
+        repository.cacheStrategyAwardCount(cacheKey, awardCount);
     }
 
     private void assembleLotteryStrategy(String key, List<StrategyAwardEntity> strategyAwardEntities) {
@@ -98,5 +108,11 @@ public class StrategyArmoryDispatch implements IStrategyArmory, IStrategyDispatc
         String key = String.valueOf(strategyId).concat(Constants.UNDERLINE).concat(ruleWeightValue);
         int rateRange = repository.getRateRange(key);
         return repository.getStrategyAwardAssemble(key, new SecureRandom().nextInt(rateRange));
+    }
+
+    @Override
+    public Boolean subtractionAwardStock(Long strategyId, Long awardId) {
+        String cacheKey = Constants.RedisKey.STRATEGY_AWARD_COUNT_KEY + strategyId + Constants.UNDERLINE + awardId;
+        return repository.subtractionAwardStock(cacheKey);
     }
 }

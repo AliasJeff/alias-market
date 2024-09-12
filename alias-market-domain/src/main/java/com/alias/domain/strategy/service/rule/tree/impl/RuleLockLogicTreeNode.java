@@ -10,10 +10,26 @@ import org.springframework.stereotype.Component;
 @Component("rule_lock")
 public class RuleLockLogicTreeNode implements ILogicTreeNode {
 
+    // TODO 从数据库、redis中获取用户抽奖次数
+    private Long userRaffleCount = 10L;
+
     @Override
-    public DefaultTreeFactory.TreeActionEntity logic(String userId, Long strategyId, Long awardId) {
+    public DefaultTreeFactory.TreeActionEntity logic(String userId, Long strategyId, Long awardId, String ruleValue) {
+        log.info("规则过滤 - 次数锁, userId: {}, strategyId: {}, awardId: {}", userId, strategyId, awardId);
+        long raffleCount = 0L;
+        try {
+            raffleCount = Long.parseLong(ruleValue);
+        } catch (Exception e) {
+            throw new RuntimeException("次数锁规则值解析异常，ruleValue：" + ruleValue);
+        }
+
+        if (userRaffleCount >= raffleCount) {
+            return DefaultTreeFactory.TreeActionEntity.builder()
+                    .ruleLogicCheckType(RuleLogicCheckTypeVO.ALLOW)
+                    .build();
+        }
         return DefaultTreeFactory.TreeActionEntity.builder()
-                .ruleLogicCheckType(RuleLogicCheckTypeVO.ALLOW)
+                .ruleLogicCheckType(RuleLogicCheckTypeVO.TAKE_OVER)
                 .build();
     }
 }
