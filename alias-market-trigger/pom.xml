@@ -36,6 +36,12 @@
             <groupId>com.alias</groupId>
             <artifactId>alias-market-domain</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.alias</groupId>
+            <artifactId>alias-market-api</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 
     <build>

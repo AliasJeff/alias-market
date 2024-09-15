@@ -13,6 +13,7 @@
         <module>alias-market-trigger</module>
         <module>alias-market-infrastructure</module>
         <module>alias-market-types</module>
+        <module>alias-market-api</module>
     </modules>
 
     <repositories>

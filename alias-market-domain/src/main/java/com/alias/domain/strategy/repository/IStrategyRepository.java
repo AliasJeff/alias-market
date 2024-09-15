@@ -43,13 +43,14 @@ public interface IStrategyRepository {
     /**
      * 缓存奖品库存
      *
-     * @param cacheKey 缓存key
+     * @param cacheKey   缓存key
      * @param awardCount 奖品库存
      */
     void cacheStrategyAwardCount(String cacheKey, Integer awardCount);
 
     /**
      * 缓存 key，decr 方式扣减奖品库存
+     *
      * @param cacheKey 缓存key
      * @return 是否扣减成功
      */
@@ -60,4 +61,14 @@ public interface IStrategyRepository {
     StrategyAwardStockKeyVO takeQueueValue();
 
     void updateStrategyAwardStock(Long strategyId, Long awardId);
+
+    /**
+     * 根据策略ID+奖品ID的唯一值组合，查询奖品信息
+     *
+     * @param strategyId 策略ID
+     * @param awardId    奖品ID
+     * @return 奖品信息
+     */
+    StrategyAwardEntity queryStrategyAwardEntity(Long strategyId, Long awardId);
+
 }

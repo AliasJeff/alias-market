@@ -1,10 +1,11 @@
 package com.alias.test;
 
 import com.alias.infrastructure.persistent.redis.IRedisService;
+import com.alias.trigger.api.dto.RaffleAwardListRequestDTO;
+import com.alibaba.fastjson2.JSON;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.redisson.api.RMap;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -20,21 +21,10 @@ public class ApiTest {
 
     @Test
     public void test() {
-        RMap<Object, Object> map = redisService.getMap("strategy_id_100001");
-        map.put(1, 101);
-        map.put(2, 101);
-        map.put(3, 101);
-
-        map.put(4, 102);
-        map.put(5, 102);
-        map.put(6, 102);
-
-        map.put(7, 103);
-        map.put(8, 103);
-
-        map.put(9, 104);
-        map.put(10, 104);
-        log.info("map: {}", redisService.getFromMap("strategy_id_100001", 1).toString());
+        RaffleAwardListRequestDTO requestDTO = new RaffleAwardListRequestDTO();
+        requestDTO.setStrategyId(1000001L);
+        log.info(JSON.toJSONString(requestDTO));
     }
+
 
 }
