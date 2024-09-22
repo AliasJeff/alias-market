@@ -65,20 +65,22 @@ public class StrategyArmoryDispatch implements IStrategyArmory, IStrategyDispatc
 
     private void assembleLotteryStrategy(String key, List<StrategyAwardEntity> strategyAwardEntities) {
         // 获取最小概率值
-        BigDecimal minAwardRate = strategyAwardEntities.stream().map(StrategyAwardEntity::getAwardRate).min(BigDecimal::compareTo).orElse(BigDecimal.ZERO);
-        // 获取概率总和
-        BigDecimal totalAwardRate = strategyAwardEntities.stream().map(StrategyAwardEntity::getAwardRate).reduce(BigDecimal.ZERO, BigDecimal::add);
+        BigDecimal minAwardRate = strategyAwardEntities.stream()
+                .map(StrategyAwardEntity::getAwardRate)
+                .min(BigDecimal::compareTo)
+                .orElse(BigDecimal.ZERO);
 
-        // 获取概率范围
-        BigDecimal rateRange = totalAwardRate.divide(minAwardRate, 0, RoundingMode.CEILING);
+        // 循环计算找到概率范围值
+        BigDecimal rateRange = BigDecimal.valueOf(convert(minAwardRate.doubleValue()));
 
         // 生成策略奖品概率查找表（指在list集合中，存放上对应的奖品占位，占位越多概率越高）
         List<Long> strategyAwardSearchRateTables = new ArrayList<>(rateRange.intValue());
         for (StrategyAwardEntity strategyAwardEntity : strategyAwardEntities) {
             Long awardId = strategyAwardEntity.getAwardId();
             BigDecimal awardRate = strategyAwardEntity.getAwardRate();
-            // FIXME 循环次数过多，需要优化
-            for (int i = 0; i < rateRange.multiply(awardRate).intValue(); i++) {
+            int a = rateRange.multiply(awardRate).intValue();
+            log.info("strategyId: {}, awardId: {}, rateRange: {}, awardRate: {}, a: {}", key, awardId, rateRange, awardRate, a);
+            for (int i = 0; i < a; i++) {
                 strategyAwardSearchRateTables.add(awardId);
             }
         }
@@ -97,9 +99,26 @@ public class StrategyArmoryDispatch implements IStrategyArmory, IStrategyDispatc
 
     }
 
+    /**
+     * 转换计算，只根据小数位来计算。如【0.01返回100】、【0.009返回1000】、【0.0018返回10000】
+     */
+    private double convert(double min) {
+        double current = min;
+        double max = 1;
+        while (current < 1) {
+            current = current * 10;
+            max = max * 10;
+        }
+        return max;
+    }
+
+
     @Override
     public Long getRandomAwardId(Long strategyId) {
         int rateRange = repository.getRateRange(strategyId);
+        if (rateRange == 0) {
+            throw new RuntimeException("strategyId: " + strategyId + " rateRange is 0");
+        }
         return repository.getStrategyAwardAssemble(String.valueOf(strategyId), new SecureRandom().nextInt(rateRange));
     }
 

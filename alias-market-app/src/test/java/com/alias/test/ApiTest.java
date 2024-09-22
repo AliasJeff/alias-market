@@ -20,6 +20,11 @@ public class ApiTest {
     private IRedisService redisService;
 
     @Test
+    public void clearCache() {
+        redisService.clearCache();
+    }
+
+    @Test
     public void test() {
         RaffleAwardListRequestDTO requestDTO = new RaffleAwardListRequestDTO();
         requestDTO.setStrategyId(1000001L);
